@@ -26,21 +26,26 @@ jobs:
 
       - name: Set up SSH
         run: |
+          mkdir -p /opt/app
           mkdir -p ~/.ssh
           echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H $EC2_HOST >> ~/.ssh/known_hosts
 
-      - name: Upload project files
+      - name: Upload project files with rsync
         run: |
-          scp -r . ec2-user@$EC2_HOST:/home/ubuntu/app/
+          rsync -avz --delete --mkpath \
+            --exclude='.git' \
+            --exclude='.github' \
+            ./ \
+            ec2-user@$EC2_HOST:/opt/app/
 
       - name: Update .env on server
         run: |
-          ssh ubuntu@$EC2_HOST "bash -s" << 'EOF'
-          cd /home/ubuntu/app
+          ssh ec2-user@$EC2_HOST "bash -s" << 'EOF'
+          cd /opt/app/
           cat > .env << EOT
-          DEBUG=${DEBUG}
+          DJANGO_DEBUG=${DEBUG}
           EOT
           EOF
         env:
