@@ -45,10 +45,48 @@ jobs:
           cd /opt/app/
           cat > .env << EOT
           DJANGO_DEBUG=${DEBUG}
+          SECRET_KEY=${SECRET_KEY}
+          DATABASE_URL=${DATABASE_URL}
+          EMAIL_HOST=${EMAIL_HOST}
+          EMAIL_PORT=${EMAIL_PORT}
+          EMAIL_HOST_USER=${EMAIL_HOST_USER}
+          EMAIL_HOST_PASSWORD=${EMAIL_HOST_PASSWORD}
+          EMAIL_USE_TLS=${EMAIL_USE_TLS}
+          EMAIL_USE_SSL=${EMAIL_USE_SSL}
+          ADMIN_USER_EMAIL=${ADMIN_USER_EMAIL}
+          CORS_ALLOW_ALL_ORIGINS=${CORS_ALLOW_ALL_ORIGINS}
+          CORS_ALLOWED_ORIGINS=${CORS_ALLOWED_ORIGINS}
+          CORS_ALLOW_CREDENTIALS=${CORS_ALLOW_CREDENTIALS}
+          STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
+          STRIPE_PUBLISHABLE_KEY=${STRIPE_PUBLISHABLE_KEY}
+          STRIPE_WEBHOOK_SECRET=${STRIPE_WEBHOOK_SECRET}
+          AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+          AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+          AWS_STORAGE_BUCKET_NAME=${AWS_STORAGE_BUCKET_NAME}
+          CURRENT_SITE=${CURRENT_SITE}
           EOT
           EOF
         env:
           DEBUG: ${{ vars.DEBUG }}
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          DATABASE_URL: ${{ secrets.postgres://nobadmin:chap4selacom3@nobilis-db.cb4sukg8w0ch.us-east-2.rds.amazonaws.com:5432/nobilisdb }}
+          EMAIL_HOST: ${{ secrets.EMAIL_HOST }}
+          EMAIL_PORT: ${{ secrets.EMAIL_PORT }}
+          EMAIL_HOST_USER: ${{ secrets.EMAIL_HOST_USER }}
+          EMAIL_HOST_PASSWORD: ${{ secrets.EMAIL_HOST_PASSWORD }}
+          EMAIL_USE_TLS: ${{ secrets.EMAIL_USE_TLS }}
+          EMAIL_USE_SSL: ${{ secrets.EMAIL_USE_SSL }}
+          ADMIN_USER_EMAIL: ${{ secrets.ADMIN_USER_EMAIL }}
+          CORS_ALLOW_ALL_ORIGINS: ${{ secrets.CORS_ALLOW_ALL_ORIGINS }}
+          CORS_ALLOWED_ORIGINS: ${{ secrets.CORS_ALLOWED_ORIGINS }}
+          CORS_ALLOW_CREDENTIALS: ${{ secrets.CORS_ALLOW_CREDENTIALS }}
+          STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
+          STRIPE_PUBLISHABLE_KEY: ${{ secrets.STRIPE_PUBLISHABLE_KEY }}
+          STRIPE_WEBHOOK_SECRET: ${{ secrets.STRIPE_WEBHOOK_SECRET }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_STORAGE_BUCKET_NAME: ${{ secrets.AWS_STORAGE_BUCKET_NAME }}
+          CURRENT_SITE: ${{ secrets.CURRENT_SITE }}
 
       - name: Build Docker image
         run: |
