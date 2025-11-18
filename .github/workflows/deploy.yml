@@ -49,3 +49,19 @@ jobs:
           EOF
         env:
           DEBUG: ${{ vars.DEBUG }}
+
+      - name: Build Docker image
+        run: |
+          ssh ec2-user@$EC2_HOST "bash -s" << 'EOF'
+          cd /opt/app/
+          docker build -t nobilis:dev .
+          EOF
+
+      - name: Update container
+        run: |
+          ssh ec2-user@$EC2_HOST "bash -s" << 'EOF'
+          cd /opt/app/
+          docker stop nobilis-dev || true && docker rm nobilis-dev || true
+          docker run --name nobilis-dev nobilis:dev
+          docker image prune
+          EOF
