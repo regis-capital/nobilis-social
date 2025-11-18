@@ -69,7 +69,7 @@ jobs:
         env:
           DEBUG: ${{ vars.DEBUG }}
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
-          DATABASE_URL: ${{ secrets.postgres://nobadmin:chap4selacom3@nobilis-db.cb4sukg8w0ch.us-east-2.rds.amazonaws.com:5432/nobilisdb }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
           EMAIL_HOST: ${{ secrets.EMAIL_HOST }}
           EMAIL_PORT: ${{ secrets.EMAIL_PORT }}
           EMAIL_HOST_USER: ${{ secrets.EMAIL_HOST_USER }}
