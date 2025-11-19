@@ -9,7 +9,7 @@ services:
       POSTGRES_USER: nobilis_user
       POSTGRES_PASSWORD: nobilis_password
     volumes:
-      - ./postgres_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
     healthcheck:
@@ -24,7 +24,7 @@ services:
     command: sh -c "python manage.py migrate && daphne -b 0.0.0.0 -p 8000 nobilis.asgi:application"
     volumes:
       - .:/app
-      - ./static_volume:/app/staticfiles
+      - static_volume:/app/staticfiles
     ports:
       - "8000:8000"
     environment:
