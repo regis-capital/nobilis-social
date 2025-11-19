@@ -41,7 +41,7 @@ jobs:
 
       - name: Update .env on server
         run: |
-          ssh ec2-user@$EC2_HOST "bash -s" << 'EOF'
+          ssh ec2-user@$EC2_HOST "bash -s" << EOF
           cd /opt/app/
           cat > .env << EOT
           DJANGO_DEBUG=${DEBUG}
