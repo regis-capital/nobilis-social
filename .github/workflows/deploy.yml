@@ -88,6 +88,14 @@ jobs:
           AWS_STORAGE_BUCKET_NAME: ${{ secrets.AWS_STORAGE_BUCKET_NAME }}
           CURRENT_SITE: ${{ secrets.CURRENT_SITE }}
 
+      - name: Clean volumes only in dev
+        if: ${{ inputs.environment == 'dev' }}
+        run: |
+          ssh ec2-user@$EC2_HOST "bash -s" << 'EOF'
+          cd /opt/app/
+          docker compose down -v || true
+          EOF
+
       - name: Build Docker image
         run: |
           ssh ec2-user@$EC2_HOST "bash -s" << 'EOF'
