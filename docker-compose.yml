@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:17.4
+    container_name: nobilis_postgres
+    environment:
+      POSTGRES_DB: nobilis_db
+      POSTGRES_USER: nobilis_user
+      POSTGRES_PASSWORD: nobilis_password
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U nobilis_user -d nobilis_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  web:
+    build: .
+    container_name: nobilis_web
+    command: sh -c "python manage.py migrate && daphne -b 0.0.0.0 -p 8000 nobilis.asgi:application"
+    volumes:
+      - .:/app
+      - ./static_volume:/app/staticfiles
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql://nobilis_user:nobilis_password@db:5432/nobilis_db
+      DJANGO_SETTINGS_MODULE: nobilis.settings
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
+  static_volume:
