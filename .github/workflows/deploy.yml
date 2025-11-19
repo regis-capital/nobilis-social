@@ -92,5 +92,7 @@ jobs:
         run: |
           ssh ec2-user@$EC2_HOST "bash -s" << 'EOF'
           cd /opt/app/
+          docker compose down || true
+          docker compose pull || true
           docker compose up -d --build
           EOF
