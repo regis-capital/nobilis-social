@@ -25,9 +25,6 @@ services:
       - static_volume:/app/staticfiles
     ports:
       - "8000:8000"
-    environment:
-      DATABASE_URL: postgresql://nobilis_user:nobilis_password@db:5432/nobilis_db
-      DJANGO_SETTINGS_MODULE: nobilis.settings
     depends_on:
       db:
         condition: service_healthy
